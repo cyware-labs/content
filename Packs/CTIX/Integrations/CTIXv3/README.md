@@ -1,28 +1,25 @@
-This is example Threat Intelligence eXhange(CTIX) integration which enriches IP/Domain/URL/File Data.
-This integration was integrated and tested with version 3.0.0 of CTIX
+The Cyware Intel Exchange integration allows users to enrich IP, domain, URL, and file data. The integration was tested with Cyware Intel Exchange version 3.0.0.
 
-## Configure CTIX in Cortex
+## Configure Cyware Intel Exchange in Cortex
 
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
-| Endpoint URL | Enter the endpoint URL of your CTIX Instance. | True |
-| Access Key | Enter the Access Key from the CTIX application. | True |
-| Secret Key | Enter the Secret Key from the CTIX application. | True |
-| Trust any certificate (not secure) |  | False |
-| Use system proxy settings |  | False |
-| Fetch incidents |  | False |
-| Incidents Fetch Interval |  | False |
-| Incident type |  | False |
+| Endpoint URL | Enter the endpoint URL of your Cyware Intel Exchange Instance. | True |
+| Access Key | Enter the Access Key from the Cyware Intel Exchange application. | True |
+| Secret Key | Enter the Secret Key from the Cyware Intel Exchange application. | True |
+| Timeout | Enter the maximum time in seconds that Cortex XSOAR should wait for a response from Cyware Intel Exchange. Default is 180 seconds. | False |
+| Trust any certificate (not secure) | Specify whether to trust any certificate (not secure). | False |
+| Use system proxy settings | Specify whether to use system proxy settings. | False |
 
 ## Commands
 
-You can execute these commands from the CLI, as part of an automation, or in a playbook.
+You can execute these commands from the CLI, as part of an automation, or within a playbook.
 After you successfully execute a command, a DBot message appears in the War Room with the command details.
 
 ### ctix-create-tag
 
 ***
-Create new tag in the ctix platform
+Create a new tag in the Cyware Intel Exchange platform
 
 #### Base Command
 
@@ -32,19 +29,19 @@ Create new tag in the ctix platform
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| tag_name | New tag's name. | Required |
-| color_code | New tag's hex colour code e.g #111111. | Required |
+| tag_name | Enter the tag name. | Required |
+| color_code | Enter the tag’s hex color code. For example, #111111. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | CTIX.Tag.name | string | Name of the tag |
-| CTIX.Tag.tag_type | string | Type of the tag \(manual\) |
-| CTIX.Tag.colour_code | string | Colour Code of the tag |
-| CTIX.Tag.id | string | Id of the Created Tag |
-| CTIX.Tag.created | number | Created at timestamp |
-| CTIX.Tag.modified | number | Modified at timestamp |
+| CTIX.Tag.tag_type | string | Type of the tag |
+| CTIX.Tag.colour_code | string | Colour code of the tag |
+| CTIX.Tag.id | string | Id of the created Tag |
+| CTIX.Tag.created | number | Timestamp when the tag was created. |
+| CTIX.Tag.modified | number | Timestamp when the tag was modified. |
 
 #### Command Example
 
@@ -68,7 +65,7 @@ Create new tag in the ctix platform
 ### ctix-get-tags
 
 ***
-Get paginated list of tags
+Get a paginated list of tags.
 
 #### Base Command
 
@@ -78,9 +75,9 @@ Get paginated list of tags
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | Page number for pagination. Default is 1. | Optional |
-| page_size | Page size for pagination. Default is 10. | Optional |
-| q | search query parameter. | Optional |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Page size for pagination. Default value is 10. | Optional |
+| q | Search query used to filter results | Optional |
 
 #### Context Output
 
@@ -90,8 +87,8 @@ Get paginated list of tags
 | CTIX.Tag.id | string | ID of the tag |
 | CTIX.Tag.colour_code | string | Hex colour code associated with tag |
 | CTIX.Tag.tag_type | string | Type of the tag |
-| CTIX.Tag.created | number | Created at timestamp |
-| CTIX.Tag.modified | number | Modified at timestamp |
+| CTIX.Tag.created | number | Timestamp when the tag was created |
+| CTIX.Tag.modified | number | Timestamp when the tag was modified |
 
 #### Command Example
 
@@ -123,7 +120,7 @@ Get paginated list of tags
 ### ctix-disable-or-enable-tags
 
 ***
-Disable or enable tags in the CTIX platform
+Enable or disable tags in the Cyware Intel Exchange platform.
 
 #### Base Command
 
@@ -133,8 +130,8 @@ Disable or enable tags in the CTIX platform
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| tag_ids | ID of the tag(s) to disable or enable. Supports multiple IDs as a comma-separated list. | Required |
-| action | Action to be performed on the tag. Possible values are: enabled, disabled. Default is disabled. | Optional |
+| tag_ids | IDs of the tags to enable or disable. Supports multiple IDs as a comma-separated list. | Required |
+| action | Action to be performed on the tag. Possible values are: enabled, disabled. The default value is disabled. | Optional |
 
 #### Context Output
 
@@ -155,7 +152,7 @@ Disable or enable tags in the CTIX platform
 ### ctix-allowed-iocs
 
 ***
-Adds list of same type of iocs to allowed
+Add a list of same type IOCs to the allowed list.
 
 #### Base Command
 
@@ -165,17 +162,17 @@ Adds list of same type of iocs to allowed
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| type | Type of ioc. Possible values are: ipv4-addr, ipv6-addr, autonomous-system, email-addr, MD5, SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SSDEEP, url, cidr, domain-name, mutex, windows-registry-key, user-agent. | Required |
-| values | Values of the given type. | Required |
-| reason | Descriptive reason. | Required |
+| type | Type of IOC. Possible values are: ipv4-addr, ipv6-addr, autonomous-system, email-addr, MD5, SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SSDEEP, url, cidr, domain-name, mutex, windows-registry-key, user-agent. | Required |
+| values | Values for the specified IOC type. | Required |
+| reason | Reason for adding the IOCs to the allowed list. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Details.invalid | unknown | Invalid iocs sent in request |
-| CTIX.Details.new_created | unknown | List of iocs added to whitelist |
-| CTIX.Details.already_exists | unknown | List of iocs already existing |
+| CTIX.Details.invalid | unknown | List of invalid IOCs provided in the request. |
+| CTIX.Details.new_created | unknown | List of IOCs added to the whitelist. |
+| CTIX.Details.already_exists | unknown | List of IOCs that already exist.|
 
 #### Command Example
 
@@ -199,7 +196,7 @@ Adds list of same type of iocs to allowed
 ### ctix-get-allowed-iocs
 
 ***
-get paginated list of allowed iocs
+Get a paginated list of allowed IOCs.
 
 #### Base Command
 
@@ -209,22 +206,22 @@ get paginated list of allowed iocs
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | Page number . Default is 1. | Optional |
-| page_size | Page size. Default is 10. | Optional |
-| q | query param for searching. | Optional |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Page size for pagination. Default value is 10. | Optional |
+| q | Search query used to filter results | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.IOC.id | string | ID of the object |
-| CTIX.IOC.include_emails | boolean | If enabled then the emails to the corresponding emails will be whitelisted |
-| CTIX.IOC.include_sub_domains | boolean | If enabled then the emails to the corresponding sub domains will be whitelisted |
-| CTIX.IOC.include_urls | boolean | If enabled then the emails to the corresponding urls will be whitelisted |
-| CTIX.IOC.type | string | Type of the ioc |
-| CTIX.IOC.value | string | Value of the ioc |
-| CTIX.IOC.created | number | Created at timestamp |
-| CTIX.IOC.modified | number | Modified at timestamp |
+| CTIX.IOC.id | string | ID of the object. |
+| CTIX.IOC.include_emails | boolean | Indicates whether the associated email addresses are whitelisted. |
+| CTIX.IOC.include_sub_domains | boolean | Indicates whether the associated subdomains are whitelisted. |
+| CTIX.IOC.include_urls | boolean | Indicates whether the associated URLs are whitelisted. |
+| CTIX.IOC.type | string | Type of the IOC. |
+| CTIX.IOC.value | string | Value of the IOC. |
+| CTIX.IOC.created | number | Timestamp when the IOC was created. |
+| CTIX.IOC.modified | number | Timestamp when the IOC was last modified. |
 
 #### Command Example
 
@@ -247,7 +244,7 @@ get paginated list of allowed iocs
 ### ctix-remove-allowed-ioc
 
 ***
-Removes a alloweded ioc with given id
+Removes an allowed IOC using the specified ID.
 
 #### Base Command
 
@@ -257,13 +254,13 @@ Removes a alloweded ioc with given id
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| ids | allowed IOC ids. | Required |
+| ids | IDs of the allowed IOCs. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| details | string | Operation result |
+| details | string | Describes the status of the action. |
 
 #### Command Example
 
@@ -280,7 +277,7 @@ Removes a alloweded ioc with given id
 ### ctix-get-threat-data
 
 ***
-Command for querying and listing threat data
+Command for querying and listing threat data.
 
 #### Base Command
 
@@ -290,9 +287,9 @@ Command for querying and listing threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| query | Query statement for the thread data, please refer to the documentation. | Required |
-| page | page. Default is 1. | Optional |
-| page_size | size of page. Default is 1. | Optional |
+| query | Search query used to filter results | Required |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Page size for pagination. Default value is 10. | Optional |
 
 #### Context Output
 
@@ -300,25 +297,25 @@ Command for querying and listing threat data
 | --- | --- | --- |
 | CTIX.ThreatData.confidence_score | number | Confidence Score of the IOC |
 | CTIX.ThreatData.confidence_type | string | Confidence Type of the IOC |
-| CTIX.ThreatData.created | number | When the IOC was created in source |
-| CTIX.ThreatData.ctix_created | number | When the IOC was created in CTIX |
-| CTIX.ThreatData.ctix_modified | number | When the IOC was modified in CTIX |
-| CTIX.ThreatData.id | string | ID of the IOC in CTIX |
+| CTIX.ThreatData.created | number | Timestamp indicating when the IOC was created in the source. |
+| CTIX.ThreatData.ctix_created | number | Timestamp indicating when the IOC was created in Cyware Intel Exchange. |
+| CTIX.ThreatData.ctix_modified | number | Timestamp indicating when the IOC was modified in Cyware Intel Exchange. |
+| CTIX.ThreatData.id | string | ID of the IOC in Cyware Intel Exchange. |
 | CTIX.ThreatData.indicator_type | string | Type of the Indicator |
 | CTIX.ThreatData.ioc_type | string | Type of IOC |
-| CTIX.ThreatData.is_actioned | boolean | Is Actioned |
-| CTIX.ThreatData.is_deprecated | boolean | Is Deprecated |
-| CTIX.ThreatData.is_false_positive | boolean | Is False Positive |
-| CTIX.ThreatData.is_reviewed | boolean | Is reviewed |
-| CTIX.ThreatData.is_revoked | boolean | Is revoked |
-| CTIX.ThreatData.is_watchlist | boolean | Is Watchlist |
-| CTIX.ThreatData.is_whitelisted | boolean | Is alloweded |
-| CTIX.ThreatData.modified | boolean | When the indicator modified |
+| CTIX.ThreatData.is_actioned | boolean | Indicates whether the IOC has been actioned |
+| CTIX.ThreatData.is_deprecated | boolean | Indicates whether the IOC is deprecated |
+| CTIX.ThreatData.is_false_positive | boolean | Indicates whether the IOC is a false positive |
+| CTIX.ThreatData.is_reviewed | boolean | Indicates whether the IOC has been reviewed |
+| CTIX.ThreatData.is_revoked | boolean | Indicates whether the IOC has been revoked |
+| CTIX.ThreatData.is_watchlist | boolean | Indicates whether the IOC is on the watchlist |
+| CTIX.ThreatData.is_whitelisted | boolean | Indicates whether the IOC is whitelisted |
+| CTIX.ThreatData.modified | boolean | Timestamp indicating when the IOC was last modified |
 | CTIX.ThreatData.name | boolean | Name of the indicator |
-| CTIX.ThreatData.risk_severity | boolean | risk severity of the indicator |
+| CTIX.ThreatData.risk_severity | boolean | Risk severity of the indicator |
 | CTIX.ThreatData.source_collections | unknown | Source Collections of the Indicator |
 | CTIX.ThreatData.source_confidence | string | Source Confidence of the indicator |
-| CTIX.ThreatData.sources | unknown | sources of the indicator |
+| CTIX.ThreatData.sources | unknown | List of Sources for the indicator |
 | CTIX.ThreatData.sub_type | string | Sub Type of the IOC |
 | CTIX.ThreatData.tlp | string | TLP of the indicator |
 | CTIX.ThreatData.type | string | Type of the IOC |
@@ -382,7 +379,7 @@ Command for querying and listing threat data
 ### ctix-get-saved-searches
 
 ***
-Saved Search listing api with pagination
+List saved searches with pagination.
 
 #### Base Command
 
@@ -392,23 +389,23 @@ Saved Search listing api with pagination
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 5. | Optional |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Number of results per page. Default value is 10. | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | CTIX.SavedSearch.id | string | ID of the object |
-| CTIX.SavedSearch.editable | boolean |  |
-| CTIX.SavedSearch.is_threat_data_search | boolean |  |
-| CTIX.SavedSearch.name | string |  |
-| CTIX.SavedSearch.order | number |  |
-| CTIX.SavedSearch.pinned | boolean |  |
-| CTIX.SavedSearch.query | string |  |
-| CTIX.SavedSearch.shared_type | string |  |
-| CTIX.SavedSearch.type | string |  |
-| CTIX.SavedSearch.meta_data | unknown |  |
+| CTIX.SavedSearch.editable | boolean | Indicates whether the saved search is editable |
+| CTIX.SavedSearch.is_threat_data_search | boolean | Indicates whether the saved search is a threat data search |
+| CTIX.SavedSearch.name | string | Name of the saved search |
+| CTIX.SavedSearch.order | number | Order of the saved search |
+| CTIX.SavedSearch.pinned | boolean | Indicates whether the saved search is pinned |
+| CTIX.SavedSearch.query | string | Query of the saved search |
+| CTIX.SavedSearch.shared_type | string | Shared type of the saved search |
+| CTIX.SavedSearch.type | string | Type of the saved search |
+| CTIX.SavedSearch.meta_data | unknown | Metadata of the saved search |
 
 #### Command Example
 
@@ -452,7 +449,7 @@ Saved Search listing api with pagination
 ### ctix-get-server-collections
 
 ***
-Source Collection listing api with pagination
+List source collections with pagination.
 
 #### Base Command
 
@@ -462,8 +459,8 @@ Source Collection listing api with pagination
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 15. | Optional |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Number of results per page. Default value is 15. | Optional |
 
 #### Context Output
 
@@ -471,13 +468,13 @@ Source Collection listing api with pagination
 | --- | --- | --- |
 | CTIX.ServerCollection.name | string | Name of the server |
 | CTIX.ServerCollection.id | string | ID of the object |
-| CTIX.ServerCollection.inbox | boolean | Inbox is enabled or not |
-| CTIX.ServerCollection.is_active | boolean | Object if active or not |
-| CTIX.ServerCollection.is_editable | boolean | Object if editable or not |
-| CTIX.ServerCollection.polling | boolean | Object polling is enabled or not |
-| CTIX.ServerCollection.type | string | Object type  |
-| CTIX.ServerCollection.description | string | description of the object |
-| CTIX.ServerCollection.created | number | Created timestamp |
+| CTIX.ServerCollection.inbox | boolean | Indicates whether the inbox is enabled. |
+| CTIX.ServerCollection.is_active | boolean | Indicates whether the object is active. |
+| CTIX.ServerCollection.is_editable | boolean | Indicates whether the object is editable. |
+| CTIX.ServerCollection.polling | boolean | Indicates whether the object polling is enabled. |
+| CTIX.ServerCollection.type | string | Returns the Object Type |
+| CTIX.ServerCollection.description | string | Description of the object |
+| CTIX.ServerCollection.created | number | Timestamp indicating when the object was created |
 
 #### Command Example
 
@@ -496,7 +493,7 @@ Source Collection listing api with pagination
 ### ctix-get-actions
 
 ***
-Enrichment tools listing API
+List enrichment tools.
 
 #### Base Command
 
@@ -506,10 +503,10 @@ Enrichment tools listing API
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 15. | Optional |
-| object_type | object type. | Optional |
-| action_type | action type. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Number of results per page. Default is 15. | Optional |
+| object_type | Type of the object. | Optional |
+| action_type | Type of the action. | Optional |
 
 #### Context Output
 
@@ -566,6 +563,7 @@ Enrichment tools listing API
 ### ctix-add-indicator-as-false-positive
 
 ***
+Marks indicators as false positive in bulk.
 
 #### Base Command
 
@@ -575,14 +573,14 @@ Enrichment tools listing API
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_ids | , seperated list of indicator ids. | Required |
+| object_ids | Comma-separated list of indicator IDs. | Required |
 | object_type | Type of object. Possible values are: attack-pattern, campaign, course-of-action, custom-object, grouping, identity, indicator, infrastructure, intrusion-set, location, malware, malware-analysis, observed-data, opinion, report, threat-actor, tool, note, vulnerability, artifact, directory, email-addr, user-account, email-message, file, ipv4-addr, ipv6-addr, mac-addr, autonomous-system, network-traffic, domain-name, process, software, windows-registry-key, mutex, url, observable, x509-certificate. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.IndicatorFalsePositive.message | unknown | Indicator change result |
+| CTIX.IndicatorFalsePositive.message | unknown | Returns the result of the false positive action |
 
 #### Command Example
 
@@ -597,7 +595,7 @@ Enrichment tools listing API
 ### ctix-ioc-manual-review
 
 ***
-Adds ioc to manual review bulk api
+Add IOCs to manual review in bulk.
 
 #### Base Command
 
@@ -607,14 +605,14 @@ Adds ioc to manual review bulk api
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_ids | Object ids of the items to be added for manual review. | Required |
-| object_type | object type. Possible values are: attack-pattern, campaign, course-of-action, custom-object, grouping, identity, indicator, infrastructure, intrusion-set, location, malware, malware-analysis, observed-data, opinion, report, threat-actor, tool, note, vulnerability, artifact, directory, email-addr, user-account, email-message, file, ipv4-addr, ipv6-addr, mac-addr, autonomous-system, network-traffic, domain-name, process, software, windows-registry-key, mutex, url, observable, x509-certificate. | Required |
+| object_ids | IDs of the objects to add for manual review. | Required |
+| object_type | Type of the object. Possible values are: attack-pattern, campaign, course-of-action, custom-object, grouping, identity, indicator, infrastructure, intrusion-set, location, malware, malware-analysis, observed-data, opinion, report, threat-actor, tool, note, vulnerability, artifact, directory, email-addr, user-account, email-message, file, ipv4-addr, ipv6-addr, mac-addr, autonomous-system, network-traffic, domain-name, process, software, windows-registry-key, mutex, url, observable, x509-certificate. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.IOCManualReview.message | unknown | IOC Manual Review result |
+| CTIX.IOCManualReview.message | unknown | Result of the IOC manual review |
 
 #### Command Example
 
@@ -631,7 +629,7 @@ Adds ioc to manual review bulk api
 ### ctix-deprecate-ioc
 
 ***
-Deprecate ioc bulk api
+Deprecates IOCs in bulk
 
 #### Base Command
 
@@ -641,8 +639,8 @@ Deprecate ioc bulk api
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_ids | Object ids . | Required |
-| object_type | object type. | Required |
+| object_ids | Comma-separated list of object IDs. | Required |
+| object_type | Type of the object. | Required |
 
 #### Context Output
 
@@ -665,7 +663,7 @@ Deprecate ioc bulk api
 ### ctix-add-analyst-tlp
 
 ***
-Add Analyst TLP
+Add analyst TLP
 
 #### Base Command
 
@@ -675,15 +673,15 @@ Add Analyst TLP
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_id | object id. | Required |
-| object_type | object type. | Required |
-| data | data. | Required |
+| object_id | ID of the object to add analyst TLP. | Required |
+| object_type | Type of the object. | Required |
+| data | Object details you want to add for the analyst TLP. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.AddAnalystTLP | unknown | Result of the addition of analyst TLP |
+| CTIX.AddAnalystTLP | unknown | Result of adding the analyst TLP. |
 
 #### Command Example
 
@@ -700,7 +698,7 @@ Add Analyst TLP
 ### ctix-add-analyst-score
 
 ***
-Add Analyst Score for a Threat data
+Add analyst score for threat data.
 
 #### Base Command
 
@@ -710,9 +708,9 @@ Add Analyst Score for a Threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_id | object id. | Required |
-| object_type | object type. | Required |
-| data | data. | Required |
+| object_id | ID of the object to add analyst score. | Required |
+| object_type | Type of the object. | Required |
+| data | Object details you want to add for the analyst score. | Required |
 
 #### Context Output
 
@@ -735,7 +733,7 @@ Add Analyst Score for a Threat data
 ### ctix-saved-result-set
 
 ***
-Saved Result Set
+Retrieves Threat Data from the Saved Result Set
 
 #### Base Command
 
@@ -745,10 +743,10 @@ Saved Result Set
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 10. | Optional |
-| label_name | label name. | Optional |
-| query | CQL. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
+| label_name | Tag name for filtering results. | Optional |
+| version | Version of the Saved Result Set to Use. Allowed Values are v2 and v3| Optional |
 
 #### Context Output
 
@@ -759,11 +757,11 @@ Saved Result Set
 | CTIX.SavedResultSet.confidence_score | number | Confidence score of the IOC |
 | CTIX.SavedResultSet.confidence_type | string | Confidence type of the IOC |
 | CTIX.SavedResultSet.country | string | Country of origin for the IOC |
-| CTIX.SavedResultSet.created | number | IOC creation date |
+| CTIX.SavedResultSet.created | number | Timestamp of when the IOC was created |
 | CTIX.SavedResultSet.ctix_created | number | IOC date of creation in CTIX |
 | CTIX.SavedResultSet.ctix_modified | number | IOC date of modification in CTIX |
 | CTIX.SavedResultSet.first_seen | date | IOC timestamp when it was first seen |
-| CTIX.SavedResultSet.id | number | IOC ID |
+| CTIX.SavedResultSet.id | number | Object ID of the IOC |
 | CTIX.SavedResultSet.indicator_type | string | Type of the indicator  |
 | CTIX.SavedResultSet.ioc_type | string | Type of the IOC  |
 | CTIX.SavedResultSet.is_actioned | boolean | If there is any action taken on the indicator |
@@ -821,7 +819,7 @@ Saved Result Set
 ### ctix-add-tag-indicator
 
 ***
-Adding Tag to Indicator
+Add tag to indicator
 
 #### Base Command
 
@@ -831,12 +829,12 @@ Adding Tag to Indicator
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page from where data will be taken. Default is 1. | Optional |
-| page_size | total number of results to be fetched. Default is 10. | Optional |
-| q | query. | Optional |
-| object_id | object id. Default is "". | Optional |
-| object_type | object type. Default is "" | Optional |
-| tag_id | tag id. Default is "" | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Total number of results to be fetched. Default is 10. | Optional |
+| q | Search query for filtering results. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
+| tag_id | Tag ID to add to the indicator. | Optional |
 
 #### Context Output
 
@@ -859,7 +857,7 @@ Adding Tag to Indicator
 ### ctix-remove-tag-from-indicator
 
 ***
-Remove Tag From Indicator
+Remove tag from indicator
 
 #### Base Command
 
@@ -869,12 +867,12 @@ Remove Tag From Indicator
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | which page to bring the data from. Default is 1. | Optional |
-| page_size | number of pages to bring data from. Default is 10. | Optional |
-| q | query. | Optional |
-| object_id | object_id. Default is "". | Optional |
-| object_type | object_type. Default is "". | Optional |
-| tag_id | tag_id. Default is "". | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Total number of results to be fetched. Default is 10. | Optional |
+| q | Search query for filtering results. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
+| tag_id | Tag ID to remove from the indicator. | Optional |
 
 #### Context Output
 
@@ -897,7 +895,7 @@ Remove Tag From Indicator
 ### ctix-search-for-tag
 
 ***
-Search for tag
+Search for a tag
 
 #### Base Command
 
@@ -907,9 +905,9 @@ Search for tag
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | number of page from where data needs to brought. Default is 1. | Optional |
-| page_size | size of the result. Default is 10. | Optional |
-| q | query. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Total number of results to be fetched. Default is 10. | Optional |
+| q | Search query for filtering results. | Optional |
 
 #### Context Output
 
@@ -917,12 +915,12 @@ Search for tag
 | --- | --- | --- |
 | CTIX.SearchTag.colour_code | unknown | Colour code of the tag |
 | CTIX.SearchTag.created | number | Timestamp of when the tag was created |
-| CTIX.SearchTag.created_by | unknown | details of the person who created the tag |
+| CTIX.SearchTag.created_by | unknown | Details of the person who created the tag |
 | CTIX.SearchTag.id | string | ID of the tag |
 | CTIX.SearchTag.modified | number | Timestamp of when the tag was modified |
 | CTIX.SearchTag.modified_by | unknown | Details of the person who modified the tag |
 | CTIX.SearchTag.name | unknown | Name of the tag |
-| CTIX.SearchTag.type | unknown | type of the tag |
+| CTIX.SearchTag.type | unknown | Type of the tag |
 
 #### Command Example
 
@@ -944,7 +942,7 @@ Search for tag
 ### ctix-get-indicator-details
 
 ***
-Get Indicator Details
+Get indicator details
 
 #### Base Command
 
@@ -954,10 +952,10 @@ Get Indicator Details
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | from where data has to be brought. Default is 1. | Optional |
-| page_size | total number of results. Default is 10. | Optional |
-| object_id | object id. Default is "". | Optional |
-| object_type | object type. Default is "". | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Total number of results to be fetched. Default is 10. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
 
 #### Context Output
 
@@ -987,7 +985,7 @@ Get Indicator Details
 | CTIX.IndicatorDetails.modified | number | Timestamp of then the indicator was modified |
 | CTIX.IndicatorDetails.name | string | Name of the indicator |
 | CTIX.IndicatorDetails.pattern | string | STIX pattern of the indicator |
-| CTIX.IndicatorDetails.pattern_type | string | pattern type of the indicator |
+| CTIX.IndicatorDetails.pattern_type | string | Pattern type of the indicator |
 | CTIX.IndicatorDetails.pattern_version | string | STIX pattern version |
 | CTIX.IndicatorDetails.sources | unknown | Sources of the indicator |
 | CTIX.IndicatorDetails.sub_type | string | Sub type of the indicator |
@@ -996,7 +994,7 @@ Get Indicator Details
 | CTIX.IndicatorDetails.type | string | Type of the indicator |
 | CTIX.IndicatorDetails.types | string | Types of the indicator |
 | CTIX.IndicatorDetails.valid_from | number | Timestamp of the indicator from then it was valid |
-| CTIX.IndicatorDetails.valid_until | unknown | Timestamp of the indicator till  |
+| CTIX.IndicatorDetails.valid_until | unknown | Timestamp of the indicator until when it is valid |
 
 #### Command Example
 
@@ -1024,7 +1022,7 @@ Get Indicator Details
 ### ctix-get-indicator-tags
 
 ***
-Get Indicator Tags
+Get indicator tags
 
 #### Base Command
 
@@ -1034,10 +1032,10 @@ Get Indicator Tags
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_id | object id. Default is "". | Optional |
-| object_type | object type. Default is "". | Optional |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 10. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
 
 #### Context Output
 
@@ -1095,7 +1093,7 @@ Get Indicator Tags
 ### ctix-get-object-relations
 
 ***
-Get Object Relations
+Get Object relations
 
 #### Base Command
 
@@ -1105,10 +1103,10 @@ Get Object Relations
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 10. | Optional |
-| object_id | object id. Default is "". | Optional |
-| object_type | object type. Default is "". | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
 
 #### Context Output
 
@@ -1157,7 +1155,7 @@ Get Object Relations
 ### ctix-get-indicator-observations
 
 ***
-Get Indicator Observations
+Get indicator observations
 
 #### Base Command
 
@@ -1167,10 +1165,10 @@ Get Indicator Observations
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. | Optional |
-| page_size | page size. | Optional |
-| object_id | object id. | Optional |
-| object_type | object type. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
 
 #### Context Output
 
@@ -1193,11 +1191,11 @@ Get Indicator Observations
 | CTIX.IndicatorObservations.received_id | string | STIX ID when indicator was received |
 | CTIX.IndicatorObservations.types | unknown | STIX Types attached to the indicator |
 | CTIX.IndicatorObservations.source | unknown | STIX source of the indicator |
-| CTIX.IndicatorObservations.id | string | id of the indicator |
+| CTIX.IndicatorObservations.id | string | ID of the indicator |
 | CTIX.IndicatorObservations.valid_until | number | Timestamp till when the indicator is valid |
 | CTIX.IndicatorObservations.sco_object_id | unknown | SCO object ID |
-| CTIX.IndicatorObservations.unique_hash | unknown | unique hash of the indicator |
-| CTIX.IndicatorObservations.description | unknown | description of the indicator |
+| CTIX.IndicatorObservations.unique_hash | unknown | Unique hash of the indicator |
+| CTIX.IndicatorObservations.description | unknown | Description of the indicator |
 | CTIX.IndicatorObservations.granular_markings | unknown | Granular Markings if any |
 | CTIX.IndicatorObservations.collection | unknown | Collection details of the indicator |
 
@@ -1269,6 +1267,7 @@ Get Indicator Observations
 ### ctix-get-conversion-feed-source
 
 ***
+Gets the Source Details of an API feed in Cyware Intel Exchange
 
 #### Base Command
 
@@ -1278,18 +1277,18 @@ Get Indicator Observations
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| page | page. Default is 1. | Optional |
-| page_size | page size. Default is 10. | Optional |
-| object_id | object id. | Optional |
-| object_type | object type. | Optional |
+| page | Page number for pagination. Default is 1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
+| object_id | Object ID of the indicator. | Optional |
+| object_type | Object type of the indicator. | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
 | CTIX.ConversionFeedSource.created | number | Indicator creation timestamp |
-| CTIX.ConversionFeedSource.id | string | ID of the indicator |
-| CTIX.ConversionFeedSource.name | string | name of the indicator |
+| CTIX.ConversionFeedSource.id | string | ID of the Indicator Source |
+| CTIX.ConversionFeedSource.name | string | Name of the Indicator Source |
 | CTIX.ConversionFeedSource.taxii_option | string | TAXII option |
 
 #### Command Example
@@ -1330,9 +1329,9 @@ Lookup to get threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_type | object type. | Optional |
-| object_names | Will contain the SDO values. Example: If you need to get the object_ids of indicator 127.0.0.1 then the value will be 127.0.0.1. | Optional |
-| page_size | size of the page. Default is 10. | Optional |
+| object_type | Object type of the indicator. | Optional |
+| object_names | Will contain the SDO values. For example: If you need to get the object_ids of indicator 127.0.0.1 then the value will be 127.0.0.1. | Optional |
+| page_size | Page size for pagination. Default is 10. | Optional |
 
 #### Context Output
 
@@ -1347,26 +1346,26 @@ Lookup to get threat data
 | CTIX.ThreatDataLookup.ctix_created | number | Timestamp of when the indicator was created in CTIX |
 | CTIX.ThreatDataLookup.ctix_modified | number | Timestamp of when the indicator was modified in CTIX |
 | CTIX.ThreatDataLookup.first_seen | number | Timestamp of when the indicator was first seen |
-| CTIX.ThreatDataLookup.id | string | Indicator ID |
+| CTIX.ThreatDataLookup.id | string | Object ID of the Indicator |
 | CTIX.ThreatDataLookup.indicator_type | string | Indicator type |
 | CTIX.ThreatDataLookup.ioc_type | string | IOC type |
-| CTIX.ThreatDataLookup.is_actioned | boolean | Is actioned |
-| CTIX.ThreatDataLookup.is_deprecated | boolean | is deprecated |
-| CTIX.ThreatDataLookup.is_false_positive | boolean | is false positive |
-| CTIX.ThreatDataLookup.is_reviewed | boolean | is reviewed  |
-| CTIX.ThreatDataLookup.is_revoked | boolean | is revoked |
-| CTIX.ThreatDataLookup.is_watchlist | boolean | is watchlisted |
-| CTIX.ThreatDataLookup.is_whitelisted | boolean | is allowed |
+| CTIX.ThreatDataLookup.is_actioned | boolean | Indicates if the indicator has been actioned |
+| CTIX.ThreatDataLookup.is_deprecated | boolean | Indicates if the indicator is deprecated |
+| CTIX.ThreatDataLookup.is_false_positive | boolean | Indicates if the indicator is a false positive |
+| CTIX.ThreatDataLookup.is_reviewed | boolean | Indicates if the indicator has been reviewed |
+| CTIX.ThreatDataLookup.is_revoked | boolean | Indicates if the indicator has been revoked |
+| CTIX.ThreatDataLookup.is_watchlist | boolean | Indicates if the indicator is watchlisted |
+| CTIX.ThreatDataLookup.is_whitelisted | boolean | Indicates if the indicator is whitelisted |
 | CTIX.ThreatDataLookup.last_seen | number | Timestamp of when the indicator was last seen |
 | CTIX.ThreatDataLookup.modified | number | Timestamp of when the indicator was modified |
-| CTIX.ThreatDataLookup.name | string | name of the indicator |
+| CTIX.ThreatDataLookup.name | string | Name of the indicator |
 | CTIX.ThreatDataLookup.null | unknown | null |
-| CTIX.ThreatDataLookup.primary_attribute | string | Primary Attribute |
-| CTIX.ThreatDataLookup.published_collections | unknown | published collections |
+| CTIX.ThreatDataLookup.primary_attribute | string | Details of the Primary Attribute |
+| CTIX.ThreatDataLookup.published_collections | unknown | Published collections |
 | CTIX.ThreatDataLookup.risk_severity | string | Risk severity |
-| CTIX.ThreatDataLookup.source_collections | unknown | sources collections |
+| CTIX.ThreatDataLookup.source_collections | unknown | Source collections |
 | CTIX.ThreatDataLookup.source_confidence | string | Source confidence  |
-| CTIX.ThreatDataLookup.sources | unknown | sources |
+| CTIX.ThreatDataLookup.sources | unknown | Sources |
 | CTIX.ThreatDataLookup.sub_type | string | Sub type |
 | CTIX.ThreatDataLookup.subscriber_collections | unknown | subscriber collections |
 | CTIX.ThreatDataLookup.subscribers | unknown | subscribers |
@@ -1473,7 +1472,7 @@ Lookup to get threat data
 ### ctix-get-create-threat-data
 
 ***
-Gets or creates threat data
+Get or create threat data
 
 #### Base Command
 
@@ -1483,9 +1482,9 @@ Gets or creates threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_type | object type. | Optional |
-| object_names | Will contain the SDO values. Example: If you need to get the object_ids of indicator 127.0.0.1 then the value will be 127.0.0.1. | Required |
-| page_size | size of the page. Default is 10. | Optional |
+| object_type | Type of the object. | Optional |
+| object_names | Will contain the SDO values. For example: If you need to get the object_ids of indicator 127.0.0.1 then the value will be 127.0.0.1. | Required |
+| page_size | Page size for pagination. Default value is 10. | Optional |
 | source | The source of the threat data. | Optional |
 | collection | The collection to store the threat data in. | Optional |
 
@@ -1640,7 +1639,7 @@ Gets or creates threat data
 ***
 Lookup domain threat data
 
-Notice: Submitting indicators using this command might make the indicator data publicly available. See the vendor’s documentation for more details.
+Notice: Using this command to submit indicators may make the data publicly available. Refer to the vendor’s documentation for more details.
 
 #### Base Command
 
@@ -1650,7 +1649,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| domain | Will contain domain SDO values. Example: If you need to get the object_ids of indicator example.com then the value will be example.com. | Required |
+| domain | Will contain domain SDO values. For example: If you need to get the object_ids of indicator example.com then the value will be example.com. | Required |
 
 #### Context Output
 
@@ -1660,7 +1659,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 | DBotScore.Type | String | The indicator type. |
 | DBotScore.Vendor | String | The vendor used to calculate the score. |
 | DBotScore.Score | Number | The actual score. |
-| Domain.Name | String | The domain name, for example: "google.com". |
+| Domain.Name | String | The domain name. For example: "google.com". |
 
 #### Command example
 
@@ -1766,7 +1765,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 ### ip
 
 ***
-Lookup ip threat data
+Lookup IP threat data.
 
 #### Base Command
 
@@ -1776,7 +1775,7 @@ Lookup ip threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| ip | Will contain IP SDO values. Example: If you need to get the object_ids of indicator 1.2.3.4 then the value will be 1.2.3.4. | Required |
+| ip | Will contain IP SDO values. For example: If you need to get the object_ids of indicator 1.2.3.4 then the value will be 1.2.3.4. | Required |
 
 #### Context Output
 
@@ -1785,8 +1784,8 @@ Lookup ip threat data
 | DBotScore.Indicator | String | The indicator that was tested. |
 | DBotScore.Type | String | The indicator type. |
 | DBotScore.Vendor | String | The vendor used to calculate the score. |
-| DBotScore.Score | Number | The actual score. |
-| IP.Address | String | The IP address, for example: 1.2.3.4. |
+| DBotScore.Score | Number | The actual score provided by the vendor. |
+| IP.Address | String | The IP address. For example: 1.2.3.4. |
 
 #### Command example
 
@@ -1903,7 +1902,7 @@ Lookup file threat data
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| file | Will contain file SDO values. Example: If you need to get the object_ids of a file hash 3ed0a30799543fa2c3a913c7985bffed then the value will be 3ed0a30799543fa2c3a913c7985bffed. | Required |
+| file | Will contain file SDO values. For example: If you need to get the object_ids of a file hash 3ed0a30799543fa2c3a913c7985bffed then the value will be 3ed0a30799543fa2c3a913c7985bffed. | Required |
 
 #### Context Output
 
@@ -2008,9 +2007,9 @@ Lookup file threat data
 ### url
 
 ***
-Lookup url threat data
+Lookup URL threat data
 
-Notice: Submitting indicators using this command might make the indicator data publicly available. See the vendor’s documentation for more details.
+Notice: Using this command to submit indicators may make the data publicly available. Refer to the vendor’s documentation for more details.
 
 #### Base Command
 
@@ -2020,7 +2019,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| url | Will contain URL SDO values. Example: If you need to get the object_ids of a URL <https://cyware.com/> then the value will be <https://cyware.com/>. | Required |
+| url | Will contain URL SDO values. For example: If you need to get the object_ids of a URL <https://cyware.com/> then the value will be <https://cyware.com/>. | Required |
 
 #### Context Output
 
@@ -2029,7 +2028,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 | DBotScore.Indicator | String | The indicator that was tested. |
 | DBotScore.Type | String | The indicator type. |
 | DBotScore.Vendor | String | The vendor used to calculate the score. |
-| DBotScore.Score | Number | The actual score. |
+| DBotScore.Score | Number | The actual score provided by the vendor. |
 | URL.Data | String | The URL |
 
 #### Command example
@@ -2127,7 +2126,7 @@ Notice: Submitting indicators using this command might make the indicator data p
 ### ctix-get-all-notes
 
 ***
-Get paginated list of Notes
+Get paginated list of notes
 
 #### Base Command
 
@@ -2137,20 +2136,20 @@ Get paginated list of Notes
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| object_id | if set, this will only retrieve Notes associated with the Threat Data object with ID=`object_id`. | Optional |
-| page | the page number of the Notes to look up, default is the first page. Default is 1. | Optional |
-| page_size | size of the result. Default is 10. | Optional |
+| object_id | If set, retrieves only notes associated with the threat data object with ID = object_id. | Optional |
+| page | Page number for pagination. Default value is 1. | Optional |
+| page_size | Page size for pagination. Default value is 10. | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Note.created | integer | The timestamp when the Note was created |
-| CTIX.Note.created_by | unknown | The user who created the Note |
-| CTIX.Note.created_by.email | string | The email of the user who created the Note |
-| CTIX.Note.created_by.first_name | string | The first name of the user who created the Note |
-| CTIX.Note.created_by.id | string | The ID of the user who created the Note |
-| CTIX.Note.created_by.last_name | string | The last name of the user who created the Note |
+| CTIX.Note.created | integer | The timestamp when the note was created |
+| CTIX.Note.created_by | unknown | The user who created the note |
+| CTIX.Note.created_by.email | string | The email of the user who created the note |
+| CTIX.Note.created_by.first_name | string | The first name of the user who created the note |
+| CTIX.Note.created_by.id | string | The ID of the user who created the note |
+| CTIX.Note.created_by.last_name | string | The last name of the user who created the note |
 | CTIX.Note.id | string | The ID of the Note |
 | CTIX.Note.is_json | boolean | A flag indicating whether the Note is in JSON format |
 | CTIX.Note.meta_data | unknown | Meta data for the Note |
@@ -2217,7 +2216,7 @@ Get paginated list of Notes
 ### ctix-get-note-details
 
 ***
-Get details of a Note as specified by its ID
+Get details of a note by ID
 
 #### Base Command
 
@@ -2227,32 +2226,32 @@ Get details of a Note as specified by its ID
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| id | the id of the Note. | Required |
+| id | The ID of the note. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Note.created | integer | The timestamp when the Note was created |
-| CTIX.Note.created_by | unknown | The user who created the Note |
-| CTIX.Note.created_by.email | string | The email of the user who created the Note |
-| CTIX.Note.created_by.first_name | string | The first name of the user who created the Note |
-| CTIX.Note.created_by.id | string | The ID of the user who created the Note |
-| CTIX.Note.created_by.last_name | string | The last name of the user who created the Note |
-| CTIX.Note.id | string | The ID of the Note |
-| CTIX.Note.is_json | boolean | A flag indicating whether the Note is in JSON format |
-| CTIX.Note.meta_data | unknown | Meta data for the Note |
-| CTIX.Note.meta_data.component | string | The component for the Note |
-| CTIX.Note.modified | integer | The timestamp when the Note was last modified |
-| CTIX.Note.modified_by | unknown | The user who last modified the Note |
-| CTIX.Note.modified_by.email | string | The email of the user who last modified the Note |
-| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the Note |
-| CTIX.Note.modified_by.id | string | The ID of the user who last modified the Note |
-| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the Note |
-| CTIX.Note.object_id | string | The object ID of the Note |
-| CTIX.Note.text | string | The text of the Note |
-| CTIX.Note.title | string | The title of the Note |
-| CTIX.Note.type | string | The type of the Note |
+| CTIX.Note.created | integer | The timestamp when the note was created |
+| CTIX.Note.created_by | unknown | The user who created the note |
+| CTIX.Note.created_by.email | string | The email of the user who created the note |
+| CTIX.Note.created_by.first_name | string | The first name of the user who created the note |
+| CTIX.Note.created_by.id | string | The ID of the user who created the note |
+| CTIX.Note.created_by.last_name | string | The last name of the user who created the note |
+| CTIX.Note.id | string | The ID of the note |
+| CTIX.Note.is_json | boolean | A flag indicating whether the note is in JSON format |
+| CTIX.Note.meta_data | unknown | Meta data for the note |
+| CTIX.Note.meta_data.component | string | The component for the note |
+| CTIX.Note.modified | integer | The timestamp when the note was last modified |
+| CTIX.Note.modified_by | unknown | The user who last modified the note |
+| CTIX.Note.modified_by.email | string | The email of the user who last modified the note |
+| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the note |
+| CTIX.Note.modified_by.id | string | The ID of the user who last modified the note |
+| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the note |
+| CTIX.Note.object_id | string | The object ID of the note |
+| CTIX.Note.text | string | The text of the note |
+| CTIX.Note.title | string | The title of the note |
+| CTIX.Note.type | string | The type of the note |
 
 #### Command example
 
@@ -2305,7 +2304,7 @@ Get details of a Note as specified by its ID
 ### ctix-create-note
 
 ***
-Creates a new Note from the parameter 'text'
+Creates a new note from the parameter 'text'
 
 #### Base Command
 
@@ -2315,34 +2314,34 @@ Creates a new Note from the parameter 'text'
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| text | the text that you want the note to have. | Required |
-| object_id | if set, will associate Note to the Threat Data object with the provided ID. | Optional |
+| text | The text that you want the note to have. | Required |
+| object_id | if set, will associate note to the Threat Data object with the provided ID. | Optional |
 | object_type | only required if `object_id` is set, used to specify the type of object `object_id` is. Possible values are: indicator, malware, threat-actor, vulnerability, attack-pattern, campaign, course-of-action, identity, infrastructure, intrusion-set, location, malware-analysis, observed-data, opinion, tool, report, custom-object, observable, incident, note. | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Note.created | integer | The timestamp when the Note was created |
-| CTIX.Note.created_by | unknown | The user who created the Note |
-| CTIX.Note.created_by.email | string | The email of the user who created the Note |
-| CTIX.Note.created_by.first_name | string | The first name of the user who created the Note |
-| CTIX.Note.created_by.id | string | The ID of the user who created the Note |
-| CTIX.Note.created_by.last_name | string | The last name of the user who created the Note |
-| CTIX.Note.id | string | The ID of the Note |
-| CTIX.Note.is_json | boolean | A flag indicating whether the Note is in JSON format |
-| CTIX.Note.meta_data | unknown | Meta data for the Note |
-| CTIX.Note.meta_data.component | string | The component for the Note |
-| CTIX.Note.modified | integer | The timestamp when the Note was last modified |
-| CTIX.Note.modified_by | unknown | The user who last modified the Note |
-| CTIX.Note.modified_by.email | string | The email of the user who last modified the Note |
-| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the Note |
-| CTIX.Note.modified_by.id | string | The ID of the user who last modified the Note |
-| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the Note |
-| CTIX.Note.object_id | string | The object ID of the Note |
-| CTIX.Note.text | string | The text of the Note |
-| CTIX.Note.title | string | The title of the Note |
-| CTIX.Note.type | string | The type of the Note |
+| CTIX.Note.created | integer | The timestamp when the note was created |
+| CTIX.Note.created_by | unknown | The user who created the note |
+| CTIX.Note.created_by.email | string | The email of the user who created the note |
+| CTIX.Note.created_by.first_name | string | The first name of the user who created the note |
+| CTIX.Note.created_by.id | string | The ID of the user who created the note |
+| CTIX.Note.created_by.last_name | string | The last name of the user who created the note |
+| CTIX.Note.id | string | The ID of the note |
+| CTIX.Note.is_json | boolean | A flag indicating whether the note is in JSON format |
+| CTIX.Note.meta_data | unknown | Meta data for the note |
+| CTIX.Note.meta_data.component | string | The component for the note |
+| CTIX.Note.modified | integer | The timestamp when the note was last modified |
+| CTIX.Note.modified_by | unknown | The user who last modified the note |
+| CTIX.Note.modified_by.email | string | The email of the user who last modified the note |
+| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the note |
+| CTIX.Note.modified_by.id | string | The ID of the user who last modified the note |
+| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the note |
+| CTIX.Note.object_id | string | The object ID of the note |
+| CTIX.Note.text | string | The text of the note |
+| CTIX.Note.title | string | The title of the note |
+| CTIX.Note.type | string | The type of the note |
 
 #### Command example
 
@@ -2441,7 +2440,7 @@ Creates a new Note from the parameter 'text'
 ### ctix-update-note
 
 ***
-Updates the Note text from an existing Note, as specified by its ID
+Updates the note text from an existing note, as specified by its ID
 
 #### Base Command
 
@@ -2451,35 +2450,35 @@ Updates the Note text from an existing Note, as specified by its ID
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| id | the id of the Note. | Required |
-| text | the updated text that you want the note to have. | Optional |
-| object_id | if set, will associate Note to the Threat Data object with the provided ID. | Optional |
-| object_type | only required if `object_id` is set, used to specify the type of object `object_id` is. Possible values are: indicator, malware, threat-actor, vulnerability, attack-pattern, campaign, course-of-action, identity, infrastructure, intrusion-set, location, malware-analysis, observed-data, opinion, tool, report, custom-object, observable, incident, note. | Optional |
+| id | The ID of the note. | Required |
+| text | The updated text that you want the note to have. | Optional |
+| object_id | If set, will associate the note to the Threat Data object with the provided ID. | Optional |
+| object_type | Only required if `object_id` is set, used to specify the type of object `object_id` is. Possible values are: indicator, malware, threat-actor, vulnerability, attack-pattern, campaign, course-of-action, identity, infrastructure, intrusion-set, location, malware-analysis, observed-data, opinion, tool, report, custom-object, observable, incident, note. | Optional |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Note.created | integer | The timestamp when the Note was created |
-| CTIX.Note.created_by | unknown | The user who created the Note |
-| CTIX.Note.created_by.email | string | The email of the user who created the Note |
-| CTIX.Note.created_by.first_name | string | The first name of the user who created the Note |
-| CTIX.Note.created_by.id | string | The ID of the user who created the Note |
-| CTIX.Note.created_by.last_name | string | The last name of the user who created the Note |
-| CTIX.Note.id | string | The ID of the Note |
-| CTIX.Note.is_json | boolean | A flag indicating whether the Note is in JSON format |
-| CTIX.Note.meta_data | unknown | Meta data for the Note |
-| CTIX.Note.meta_data.component | string | The component for the Note |
-| CTIX.Note.modified | integer | The timestamp when the Note was last modified |
-| CTIX.Note.modified_by | unknown | The user who last modified the Note |
-| CTIX.Note.modified_by.email | string | The email of the user who last modified the Note |
-| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the Note |
-| CTIX.Note.modified_by.id | string | The ID of the user who last modified the Note |
-| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the Note |
-| CTIX.Note.object_id | string | The object ID of the Note |
-| CTIX.Note.text | string | The text of the Note |
-| CTIX.Note.title | string | The title of the Note |
-| CTIX.Note.type | string | The type of the Note |
+| CTIX.Note.created | integer | The timestamp when the note was created |
+| CTIX.Note.created_by | unknown | The user who created the note |
+| CTIX.Note.created_by.email | string | The email of the user who created the note |
+| CTIX.Note.created_by.first_name | string | The first name of the user who created the note |
+| CTIX.Note.created_by.id | string | The ID of the user who created the note |
+| CTIX.Note.created_by.last_name | string | The last name of the user who created the note |
+| CTIX.Note.id | string | The ID of the note |
+| CTIX.Note.is_json | boolean | A flag indicating whether the note is in JSON format |
+| CTIX.Note.meta_data | unknown | Meta data for the note |
+| CTIX.Note.meta_data.component | string | The component for the note |
+| CTIX.Note.modified | integer | The timestamp when the note was last modified |
+| CTIX.Note.modified_by | unknown | The user who last modified the note |
+| CTIX.Note.modified_by.email | string | The email of the user who last modified the note |
+| CTIX.Note.modified_by.first_name | string | The first name of the user who last modified the note |
+| CTIX.Note.modified_by.id | string | The ID of the user who last modified the note |
+| CTIX.Note.modified_by.last_name | string | The last name of the user who last modified the note |
+| CTIX.Note.object_id | string | The object ID of the note |
+| CTIX.Note.text | string | The text of the note |
+| CTIX.Note.title | string | The title of the note |
+| CTIX.Note.type | string | The type of the note |
 
 #### Command example
 
@@ -2580,7 +2579,7 @@ Updates the Note text from an existing Note, as specified by its ID
 ### ctix-delete-note
 
 ***
-Deletes an existing Note, as specified by its ID
+Deletes an existing note using its ID.
 
 #### Base Command
 
@@ -2590,13 +2589,13 @@ Deletes an existing Note, as specified by its ID
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| id | the id of the Note. | Required |
+| id | the ID of the note. | Required |
 
 #### Context Output
 
 | **Path** | **Type** | **Description** |
 | --- | --- | --- |
-| CTIX.Note.deletion.details | string | Returns "success" if the deletion request was successful, otherwise "failure" |
+| CTIX.Note.deletion.details | string | Returns the status of the note deletion request. |
 
 #### Command example
 
@@ -2625,7 +2624,7 @@ Deletes an existing Note, as specified by its ID
 ### ctix-make-request
 
 ***
-allows you to make any HTTP request using CTIX endpoints
+Allows you to make any API call to Cyware Intel Exchange endpoints.
 
 #### Base Command
 
@@ -2635,10 +2634,10 @@ allows you to make any HTTP request using CTIX endpoints
 
 | **Argument Name** | **Description** | **Required** |
 | --- | --- | --- |
-| type | the HTTP method you would like to call. Possible values are: GET, POST, PUT, DELETE. | Required |
+| type | The HTTP method you would like to call. Possible values are: GET, POST, PUT, DELETE. | Required |
 | endpoint | URL suffix of the API call to CTIX. | Required |
-| body | any data you would like to pass, in JSON format. | Optional |
-| params | any parameters you would like to pass, in JSON format. | Optional |
+| body | Any data you would like to pass, in JSON format. | Optional |
+| params | Any parameters you would like to pass, in JSON format. | Optional |
 
 #### Context Output
 
@@ -2831,7 +2830,7 @@ There is no context output for this command.
 ### ctix-get-vulnerability-data
 
 ***
-Lookup vulnerability info
+Lookup vulnerability data
 
 #### Base Command
 

@@ -1997,7 +1997,7 @@ def main() -> None:
     access_id = params.get("access_id")
     secret_key = params.get("secret_key")
     verify = not params.get("insecure", False)
-    timeout = arg_to_number(params.get("timeout")) or 15
+    timeout = arg_to_number(params.get("timeout")) or 180
     reliability = params.get("integrationReliability", DBotScoreReliability.C)
 
     if DBotScoreReliability.is_valid_type(reliability):
